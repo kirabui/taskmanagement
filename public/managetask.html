@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> New Task </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script defer src="javascripts/managetask.js"></script>
+   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+
+
+</head>
+
+<body>
+
+<div id="vtask">
+
+
+
+<div class="header">
+  <h2>Kira's Task Management</h2>
+</div>
+
+<!--Navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ><a href="/home.html">Home</a></li>
+
+        <li class="dropdown" class="active">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/managetask.html" > Manage Tasks <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li class="active"><a href="/managetask.html">Create a new Task</a></li>
+            <li><a href="/searchtask.html">Search for tasks</a></li>
+          </ul>
+        </li>
+         <li ><a href="/myaccount.html">Manage my account</a></li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a v-on:click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log-out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--End navigation bar-->
+
+
+
+<div class="container-fluid">
+
+  <div class="row">
+
+<!--Left Panel-->
+
+    <div class="col-sm-2">
+    </div>
+
+<!--MIddle Panel-->
+
+    <div class="col-sm-8 text-left mid">
+      <div class="container-fluid">
+        <h1>Hi {{session.name}}!</h1>
+            <form class="form-horizontal" action="javascript:void(0);" >
+
+
+              <!--Start the copy-->
+
+              <!--Task Type-->
+
+             <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">TaskType</label>
+                        <div class="col-sm-7">
+                             <label >Select list (select one):</label>
+                              <select class="form-control" v-model="newtask.type" required>
+                                  <option>  HTML</option>
+                                  <option>  CSS</option>
+                                  <option>  VueJS AJAX</option>
+                                  <option>  Router</option>
+                                  <option>  Database</option>
+                              </select>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+            <!--End task type-->
+
+            <!--Task descriptiom-->
+            <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Task Description</label>
+                        <div class="col-sm-7">
+                                     <textarea class="form-control" v-model="newtask.des" rows="5" required ></textarea>
+
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            <!--End task-description-->
+
+            <!--DUE DATE-->
+             <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Due date</label>
+                        <div class="col-sm-7">
+                            <input type="date" v-model="newtask.due" required>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+            <!--END DUE DATE-->
+            <!--Status-->
+               <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Status</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" v-model="newtask.stat" required >
+                                <option selected="selected" >Just created</option>
+                                <option>About to start</option>
+                                <option>In Progress</option>
+                                <option>Final Check</option>
+                                <option>Finished</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            <!--End status-->
+            <!--Show teammate-->
+        <div class="form-group">
+            <div class="table-responsive">
+             <table class="table table-hover table-striped">
+           <thead>
+              <tr class="success">
+                  <th v-for="(value, name) in manager[0]"> {{name}}</th>
+              </tr>
+            </thead>
+                <tbody v-for="person in manager">
+                   <tr class="info">
+                        <td v-for="value in person" >{{value}}</td>
+                     </tr>
+
+                </tbody>
+           </table>
+           </div>
+        </div>
+            <!--End show teammate-->
+            <!--Assign to-->
+            <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Assign to</label>
+                        <div class="col-sm-7">
+                            <label for="tasktype">Hold shift to select more than one:</label>
+                            <select multiple class="form-control" v-model="assignment"  id= "tasktype">
+                                <option> {{session.user_id}} </option>
+                                <option v-for="item in manager"> {{item.user_id}}  </option>fdasfdasfds
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            <!--end assign to-->
+            <!--The button-->
+              <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3"></label>
+                        <div class="col-sm-7">
+
+                        </div>
+                        <div class="col-sm-2">
+
+                            <button class="btn btn-primary" v-on:click="createTask()" >Submit</button>
+
+                        </div>
+                    </div>
+                </div>
+
+              <!--End the button-->
+
+              <!--End the copy-->
+          </form>
+        </div>
+    </div>
+
+
+<!--Right div-->
+
+    <div class="col-sm-2 ">
+    </div>
+
+    <!--end div row-->
+    </div>
+    <!--end div middle BIG BODY-->
+    </div>
+
+
+
+
+
+
+
+
+<div class="footer">
+  <p> A WDC Project</p>
+</div>
+
+<!--end div JS-->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

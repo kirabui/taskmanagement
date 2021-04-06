@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Manage my account </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+
+
+
+</head>
+
+<body>
+
+<div id="vmana">
+
+
+
+<div class="header">
+  <h2>Kira's Task Management</h2>
+</div>
+
+<!--Navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ><a href="/home.html">Home</a></li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/managetask.html"> Manage Tasks <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li v-if="session.isManager==1"><a href="/managetask.html">Create a new Task</a></li>
+            <li><a href="/searchtask.html">Search for tasks</a></li>
+          </ul>
+        </li>
+         <li class="active"><a href="/myaccount.html">Manage my account</a></li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a v-on:click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log-out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--End navigation bar-->
+
+<!--Left Panel-->
+
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-sm-3">
+    </div>
+
+<!--Main Div-->
+
+<!--Common div-->
+
+<div class="col-sm-6 text-left mid">
+    <!--User DATA-->
+    <div class="container-fluid">
+        <h1>Hi {{session.name}}!</h1>
+            <form class="form-horizontal" action="javascript:void(0);" >
+                <!--Non collapsible-->
+                <!--UserID-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">UserID</label>
+                        <div class=" col-sm-6">
+                            <p class="form-control-static">{{user_data.user_id}}</p>
+                        </div>
+                        <div class=" col-sm-3">
+
+                        </div>
+                    </div>
+                </div>
+                <!--Username-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Username</label>
+                        <div class=" col-sm-6">
+                            <p class="form-control-static">{{user_data.username}}</p>
+                        </div>
+                        <div class=" col-sm-3">
+                        </div>
+                    </div>
+                 </div>
+
+                <!--Collapsible-->
+                <!--Name-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Name</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{user_data.name}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                             <button type="button" class="btn btn-primary"  data-toggle="collapse" data-target="#id">Update</button>
+                        </div>
+                    </div>
+
+                   <div class="form-group collapse"  id="id">
+                        <label class="control-label col-sm-3">New Name</label>
+                        <div class=" col-sm-6">
+                          <input type="text" class="form-control"  placeholder="Enter name" v-model="updated.name">
+                          <p> </p>
+                        </div>
+                        <div class=" col-sm-3">
+                           <button type="button" class="btn btn-primary" v-on:click="name()" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Email-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Email</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{user_data.email}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                             <button type="button" class="btn btn-primary"  data-toggle="collapse" data-target="#id1">Update</button>
+                        </div>
+                    </div>
+
+                   <div class="form-group collapse"  id="id1">
+                        <label class="control-label col-sm-3">New email</label>
+                        <div class=" col-sm-6">
+                          <input type="email" class="form-control"  placeholder="Enter email" v-model="updated.email">
+
+                        </div>
+                        <div class=" col-sm-3">
+                           <button type="button" class="btn btn-primary" v-on:click="email()" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Password-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Password</label>
+                        <div class=" col-sm-6">
+                            <p class="form-control-static"></p>
+                        </div>
+                        <div class=" col-sm-3">
+                             <button type="button" class="btn btn-primary"  data-toggle="collapse" data-target="#id2">Update</button>
+                        </div>
+                    </div>
+
+                   <div class="form-group collapse"  id="id2">
+                        <label class="control-label col-sm-3">New password</label>
+                        <div class=" col-sm-6">
+                          <input type="password" class="form-control"  placeholder="Enter password" v-model="updated.password">
+                          <p> </p>
+                        </div>
+                        <div class=" col-sm-3">
+                           <button type="button" class="btn btn-primary" v-on:click="password()" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Availability-->
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Availability</label>
+                        <div class=" col-sm-6">
+                            <p class="form-control-static">{{user_data.availability}}</p>
+                        </div>
+                        <div class=" col-sm-3">
+                             <button type="button" class="btn btn-primary"  data-toggle="collapse" data-target="#id3">Update</button>
+                        </div>
+                    </div>
+
+                   <div class="form-group collapse"  id="id3">
+                        <label class="control-label col-sm-3">New availability</label>
+                        <div class=" col-sm-6">
+                          <input type="text" class="form-control"  placeholder="Enter New availability " v-model="updated.availability">
+                          <p> </p>
+                        </div>
+                        <div class=" col-sm-3">
+                           <button type="button" class="btn btn-primary" v-on:click="avail()" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Fav_task-->
+                 <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Preferred Tasks</label>
+                        <div class=" col-sm-6">
+                            <p class="form-control-static">{{user_data.fav_tasks}}</p>
+                        </div>
+                        <div class=" col-sm-3">
+                             <button type="button" class="btn btn-primary"  data-toggle="collapse" data-target="#id4">Update</button>
+                        </div>
+                    </div>
+
+                   <div class="form-group collapse"  id="id4">
+                        <label class="control-label col-sm-3">New Preferred Tasks</label>
+                        <div class=" col-sm-6">
+                          <input type="text" class="form-control"  placeholder="Enter New Preferred Tasks " v-model="updated.fav_tasks" required>
+                          <p> </p>
+
+                        </div>
+                        <div class=" col-sm-3">
+                           <button type="submit" class="btn btn-primary" v-on:click="fav_tasks()" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+        <!--END USER DATA-->
+
+        <!--Member Specific-->
+        <div class="container-fluid" v-if="session.isManager==0">
+            <div class="form-group">
+                <label class="control-label col-sm-3">Your Manager</label>
+                <div class="col-sm-9">
+                     <div class="table-responsive">
+                        <table class="table  table-striped ">
+                            <thead>
+                                  <tr >
+                                    <th v-for="(value, name) in mem"> {{name}}</th>
+
+                                  </tr>
+                            </thead>
+                            <tbody id="member">
+                                <tr>
+                                    <td v-for="(value, name) in mem" >{{value}}</td>
+                                </tr>
+
+                            </tbody>
+                         </table>
+                      </div>
+                </div>
+             </div>
+
+        </div>
+        <!--END MEMBER SPECIFIC-->
+
+        <!--Manager SPECIFIC-->
+        <div class="container-fluid" v-if="session.isManager==1">
+            <!--Show your member-->
+            <div class="form-group">
+                <label class="control-label col-sm-3">Your Member</label>
+                <div class="col-sm-9">
+                     <div class="table-responsive">
+                        <table class="table  table-striped ">
+                            <thead>
+                                  <tr >
+                                    <th v-for="(value, name) in manager[0]"> {{name}}</th>
+
+                                  </tr>
+                            </thead>
+                            <tbody v-for="person in manager">
+                                <tr>
+                                    <td v-for="(value, name) in person" >{{value}}</td>
+                                </tr>
+
+                            </tbody>
+                         </table>
+                      </div>
+                </div>
+             </div>
+            <!--End show your member-->
+        </div>
+        <!--ENDMANAGER SPECIFIC-->
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<!--For member only-->
+   <div >
+    </div>
+
+<!--For manager only-->
+
+<div >
+    </div>
+
+<!--Right div-->
+
+    <div class="col-sm-3 ">
+
+    </div>
+
+
+    <!--end div row-->
+    </div>
+    <!--end div middle-->
+    </div>
+
+
+
+
+
+
+
+
+<div class="footer">
+  <p> A WDC Project</p>
+</div>
+
+<!--end div JS-->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script defer src="javascripts/myaccount.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

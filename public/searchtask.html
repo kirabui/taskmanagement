@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Search Task </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script defer src="javascripts/searchtask.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+
+
+
+</head>
+
+<body>
+
+<div id="vup">
+
+
+
+<div class="header">
+  <h2>Kira's Task Management</h2>
+</div>
+
+<!--Navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ><a href="/home.html">Home</a></li>
+
+        <li class="dropdown" class="active">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/managetask.html" > Manage Tasks <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li ><a href="/managetask.html">Create a new Task</a></li>
+            <li class="active"><a href="/searchtask.html">Search for tasks</a></li>
+          </ul>
+        </li>
+         <li ><a href="/myaccount.html">Manage my account</a></li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a v-on:click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log-out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--End navigation bar-->
+
+<!--Left Panel-->
+
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-sm-2">
+    </div>
+
+<!--Main Div-->
+
+
+
+    <div class="col-sm-8 text-left mid">
+      <h1>Hi {{session.name}}!</h1>
+      <br>
+      <h4>Please enter</h4>
+              <!--Start form-->
+            <form class="form-horizontal" action="javascript:void(0);" >
+              <div class="container-fluid">
+                   <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">TaskID</label>
+                        <div class="col-sm-2">
+                                <input class="form-control"  type="number"  v-model="param.taskid" ></input>
+
+                        </div>
+                        <div class="col-sm-7">
+
+                        </div>
+                    </div>
+                </div>
+
+                     <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Due from</label>
+                        <div class="col-sm-7">
+                            <input type="date" v-model="param.duefr" >
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Due to</label>
+                        <div class="col-sm-7">
+                            <input type="date" v-model="param.dueto" >
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+
+              </div>
+
+          <!--end form-->
+              <div class="form-group">
+                  <div class="form-group ">
+                        <div class="col-sm-9">
+
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-primary" v-on:click="find()">Search</button>
+
+                        </div>
+                  </div>
+                </div>
+
+         </form>
+             <!--start the table-->
+
+                <!--<div class="container-fluid">-->
+               <div class="table-responsive" >
+                    <table class="table table-hover table-striped">
+                       <thead>
+                          <tr class="success">
+                             <th v-for="(value, name) in found[0]"> {{name}}</th>
+
+                          </tr>
+                        </thead>
+                            <tbody v-for="task in found">
+                               <tr class="info">
+                                    <td v-for="value in task" >{{value}}</td>
+                                 </tr>
+
+                            </tbody>
+                       </table>
+                    </div>
+          <!--</div>-->
+                  <!--end the table-->
+
+                 <!--start the update bar-->
+                <div v-if="session.isManager==1">
+                      <div class="form-group">
+                          <h4> Enter information to be updated</h4>
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">TaskID</label>
+                        <div class="col-sm-7">
+                            <input type="number" v-model="update.taskid" required>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+              <div class="form-group">
+                    <div class="form-group" >
+                        <label class="control-label col-sm-3">Status</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" v-model="update.stat" required >
+                                <option selected="selected" >Just created</option>
+                                <option>About to start</option>
+                                <option>In Progress</option>
+                                <option>Final Check</option>
+                                <option>Finished</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+
+                        </div>
+                    </div>
+                </div>
+                    <br> <br>
+                         <div class="form-group">
+                                <div class="form-group" >
+                                    <label class="control-label col-sm-3">New Due date</label>
+                                    <div class="col-sm-7">
+                                        <input type="date" v-model="update.due" >
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                </div>
+                        </div>
+
+
+                <br>
+                <div class="container-fluid butt">
+                  <div class="form-group ">
+                        <div class="col-sm-10">
+
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary" v-on:click="pro()">Update</button>
+
+                        </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+
+                 <!--end the update bar-->
+
+
+<!--end the moddiel body-->
+</div>
+
+
+
+<!--Right div-->
+
+    <div class="col-sm-2 ">
+
+    </div>
+
+    <!--end div row-->
+    </div>
+    <!--end div middle-->
+    </div>
+
+
+
+
+<br> <br>
+
+
+
+<div class="footer">
+  <p> A WDC Project</p>
+</div>
+
+<!--end div JS-->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Log-In  </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script defer src="javascripts/login.js"></script>
+       <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+
+
+
+</head>
+
+<body>
+
+<div id="vpro">
+
+
+
+<div class="header">
+  <h2>Kira's Task Management</h2>
+
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-3">
+    </div>
+
+<div v-if="loginn == true">
+  <form action="javascript:void(0);">
+    <div class="col-sm-6 text-left mid">
+      <br>
+      <h1>Login</h1>
+
+    <div class="form-group">
+      <label for="username">User name:</label>
+      <input type="text" class="form-control"  v-model="lUser" placeholder="Enter username" required="true">
+
+    </div>
+
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control"  v-model="lPass" placeholder="Enter password" required="true">
+    </div>
+
+
+    <div class="form-group">
+    <button v-on:click="login()" class="btn btn-primary" >Submit</button>
+    </div>
+
+  <div class="form-group" v-if= "fail == 'false'">
+        <h3> Log-in Failed!</h3>
+        <span class="help-block">Wrong username or password</span>
+     </div>
+
+    </form>
+
+    <hr>
+
+    <div class="form-group">
+          <label> Or log-in via</label>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        </div>
+
+
+    <div class="form-group" >
+        <p id="prompt-sign-up"></p>
+          <label> Dont have an account?</label>
+    </div>
+
+    <div class="form-group" >
+          <a  v-on:click="loginn = false" class="btn btn-info" role="button">Sign-up</a>
+        </div>
+
+
+    </div>
+
+
+
+<!--end div v-login-->
+</div>
+
+<!--Div sign up-->
+<div v-if="loginn == false">
+  <form action="javascript:void(0);">
+  <div class="col-sm-6 text-left mid">
+      <br>
+      <h1>Sign-up</h1>
+
+    <div class="form-group">
+      <label for="username">User name:</label>
+      <input type="text" class="form-control"  v-model="sUsername" placeholder="Enter username" required="true">
+    </div>
+
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control"  v-model="spass" placeholder="Enter password" required="true">
+    </div>
+
+     <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control"  v-model="semail" placeholder="Enter your email" required="true">
+    </div>
+
+     <div class="form-group">
+      <label for="email">Name:</label>
+      <input type="text" class="form-control"  v-model="sname" placeholder="Enter your name" required="true">
+    </div>
+
+    <div class="form-group">
+      <label > You are a: </label>
+      </div>
+
+    <div class="form-group">
+      <label class="radio-inline">
+          <input  type="radio"   value=1 v-model="sismanager" checked="true"> <b> Manager</b>
+        </label>
+        <label class="radio-inline">
+          <input type="radio"  value=0 v-model="sismanager"  > <b> Member</b>
+        </label>
+
+
+
+    </div>
+
+     <div class="form-group" v-if="sismanager == 0">
+      <label >Please enter your Manager ID (enter 0 if you don't know yet)</label>
+      <input type="text" class="form-control"  v-model="smanager_id" placeholder="Enter your manager ID" >
+    </div>
+
+
+    <div class="form-group">
+    <button type="submit" v-on:click="signup()" class="btn btn-primary" >Sign-up</button>
+    </div>
+
+  <div class="form-group" v-if= "sign_fail == false">
+        <h3> Sign-up Failed!</h3>
+        <span class="help-block">Username or Email is already taken. Please try another one</span>
+     </div>
+
+     </form>
+    <hr>
+
+    <div class="form-group">
+          <label> Or Sign-up via</label>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        </div>
+
+
+    <div class="form-group" >
+        <p id="prompt-sign-up"></p>
+          <label> Already have an account?</label>
+    </div>
+
+    <div class="form-group" >
+          <a  v-on:click="loginn = true" class="btn btn-info" role="button">Sign-in</a>
+        </div>
+
+
+    </div>
+
+
+  <!--end div sign-up-->
+</div>
+
+
+
+
+
+    <div class="col-sm-3 ">
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="footer">
+  <p> A WDC Project</p>
+</div>
+
+<!--end div vpro-->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Home </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script defer src="javascripts/home.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+<style>
+h1{
+  color:white;
+}
+h3 {
+    color:white;
+}
+.table-responsive{
+    border: 0px solid #ddd;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div id="vhome">
+
+
+
+<div class="header">
+  <h2>Kira's Task Management</h2>
+</div>
+
+<!--Navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active" ><a href="/home.html">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/managetask.html"> Manage Tasks <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li v-if="session.isManager==1"><a href="/managetask.html">Create a new Task</a></li>
+            <li><a href="/searchtask.html">Search for tasks</a></li>
+          </ul>
+        </li>
+         <li><a href="/myaccount.html">Manage my account</a></li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a v-on:click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log-out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--End navigation bar-->
+
+<!--Left Panel-->
+
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-sm-1">
+    </div>
+
+<!--Main Div-->
+
+<div v-if="">
+    <div class="col-sm-10 text-left ">
+         <h1 >Hi {{session.name}}!</h1>
+            <h3> Here are your tasks</h3>
+
+
+        <!--Start table-->
+    <div v-if="teamshow==true">
+
+
+        <div class="container-fluid">
+            <ul  style=" float: right">
+                <button type="button" class="btn btn-primary active" >Team's Task</button>
+                <button  type="button" class="btn btn-primary " v-on:click="teamshow=false">Your Task</button>
+            </ul>
+            </div>
+
+            <!--Start today's task-->
+            <h3> Due today</h3>
+        <div class="table-responsive" >
+        <table class="table table-hover table-striped">
+           <thead>
+              <tr class="success">
+                  <th v-for="(value, name) in teamtask[0]"> {{name}}</th>
+
+                  <th v-if="session.isManager==1" > Set Status</th>
+                  <th v-if="session.isManager==1" > Action</th>
+
+              </tr>
+            </thead>
+                <tbody v-for="task in teamtask" v-bind:key="task.task_id">
+
+                   <tr class="info">
+                        <td v-for="value in task"  >{{value}}</td>
+
+                        <td v-if="session.isManager==1">
+                            <select class="form-control" v-model="task.Updated_Status" required >
+                                <option selected="selected" >Just created</option>
+                                <option>About to start</option>
+                                <option>In Progress</option>
+                                <option>Final Check</option>
+                                <option>Finished</option>
+                            </select>
+                        </td>
+                        <td v-if="session.isManager==1">
+                            <button class="btn btn-primary" v-on:click="update(task.task_id,task.Updated_Status)" >Update</button>
+
+                        </td>
+                     </tr>
+
+                </tbody>
+           </table>
+         </div>
+            <!--End today's task-->
+            <!--start this week's task-->
+            <h3> Due within 7 days</h3>
+            <div class="table-responsive">
+             <table class="table table-hover table-striped">
+           <thead>
+              <tr class="success">
+                 <th v-for="(value, name) in teamweek[0]"> {{name}}</th>
+                 <th v-if="session.isManager==1" > Set Status</th>
+                  <th v-if="session.isManager==1" > Action</th>
+
+              </tr>
+            </thead>
+                <tbody v-for="task in teamweek">
+                   <tr class="info">
+                        <td v-for="value in task" >{{value}}</td>
+                          <td v-if="session.isManager==1">
+                            <select class="form-control" v-model="task.Updated_Status" required >
+                                <option selected="selected" >Just created</option>
+                                <option>About to start</option>
+                                <option>In Progress</option>
+                                <option>Final Check</option>
+                                <option>Finished</option>
+                            </select>
+                        </td>
+                        <td v-if="session.isManager==1">
+                            <button class="btn btn-primary" v-on:click="update(task.task_id,task.Updated_Status)" >Update</button>
+
+                        </td>
+
+
+                     </tr>
+                </tbody>
+           </table>
+            </div>
+            <!--End this week's task-->
+
+    </div>
+      <!--show own's task-->
+    <div v-if="teamshow==false">
+
+          <div class="container-fluid">
+            <ul  style=" float: right">
+                <button type="button" class="btn btn-primary " v-on:click="teamshow=true">Team's Task</button>
+                <button  type="button" class="btn btn-primary active">Your Task</button>
+            </ul>
+            </div>
+            <!--Today-->
+    <h3> Due today</h3>
+    <div class="table-responsive" >
+        <table class="table table-hover table-striped">
+           <thead>
+              <tr class="success">
+                 <th v-for="(value, name) in yourtask[0]"> {{name}}</th>
+
+              </tr>
+            </thead>
+                <tbody v-for="item in yourtask">
+                   <tr class="info">
+                        <td v-for="value in item" >{{value}}</td>
+                     </tr>
+
+                </tbody>
+           </table>
+    </div>
+        <!--End today-->
+        <!--this week-->
+    <h3> Due within 7 days</h3>
+    <div class="table-responsive">
+         <table class="table table-hover table-striped">
+           <thead>
+              <tr class="success">
+                 <th v-for="(value, name) in yourweek[0]"> {{name}}</th>
+
+              </tr>
+            </thead>
+                <tbody v-for="item in yourweek">
+                   <tr class="info">
+                        <td v-for="value in item" >{{value}}</td>
+                     </tr>
+
+                </tbody>
+           </table>
+    </div>
+        <!--end this week-->
+
+    </div>
+      <!--End table-->
+    </div>
+</div>
+
+
+<!--Right div-->
+
+<div class="col-sm-1 ">
+
+</div>
+
+    <!--end div row-->
+</div>
+    <!--end div middle BODY-->
+</div>
+
+
+
+
+
+
+
+
+<div class="footer">
+  <p> A WDC Project</p>
+</div>
+
+<!--end div JS-->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+
+body {
+    overflow: auto;
+    background-color: #206117;
+      background-image: url(/images/auro.jpg);
+
+         background-position: center;
+          background-repeat: no-repeat;
+            background-size: cover;
+
+}
+
+.mid {
+      /*border-radius: 25px;*/
+
+    background-color: white;
+      background-color: #ffffff;
+        opacity: 0.9;
+}
+/*for search task only*/
+.butt {
+  margin-top: 15px;
+}
+/*end*/
+
+.footer {
+   position:  static;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-image: linear-gradient(black,#003300);
+   color: white;
+   text-align: center;
+   padding: 10px;
+
+}
+
+.header {
+  padding: 10px;
+  text-align: left;
+  background-image: url(/images/background.jpg);
+
+
+  color: white;
+  font-size: 20px;
+}
+nav {
+  	background-image: linear-gradient(black,#003300);
+  }
+
+.dropdown-menu {
+  background-image: linear-gradient(black,#003300);
+}
+.dropdown-menu>li>a {
+  color: white;
+}
+
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
+   background-color: #3fab3e9e;
+}
+
+
+
+
